@@ -3,7 +3,9 @@ import java.util.Scanner;
 
 public class functions {
 
-    static String accountsPath = "src/main/java/accounts/";
+
+    static String accountsPath = "accounts/";
+
 
     static final String usernameVariable = "username=";
     static final String passwordVariable = "password=";
@@ -63,12 +65,14 @@ public class functions {
     //Google Gemini Ende
 
     static boolean registerr(String name, String password, String accountType) throws IOException {
-        //Todo: check if username is already taken
+        new File("accounts").mkdir();
+
         File f1 = new File(accountsPath+name+".txt");
         if(f1.isFile()){
             System.out.println("Username is already taken!");
             return false;
         }else{
+            f1.createNewFile();
             FileWriter fwa = new FileWriter(accountsPath+name+".txt", true);
             FileWriter fw = new FileWriter(accountsPath+name+".txt", false);
 
@@ -117,30 +121,38 @@ public class functions {
 //        FileWriter fw = new FileWriter(accountsPath+name+".txt");
 //        BufferedWriter bw = new BufferedWriter(fw);
 
-        if(givenAdminPass.equals("windScript/!&")){
+        if(givenAdminPass.equals("a")){
             newType = newType.toLowerCase();
 
             FileReader fr = new FileReader(accountsPath+name+".txt");
             BufferedReader br = new BufferedReader(fr);
-
-            String user = br.readLine();
-            String pass = br.readLine();
-
-//        System.out.println(user);
-//        System.out.println(pass);
-            FileWriter fw2 = new FileWriter(accountsPath+name+".txt");
-            fw2.write("");
-            fw2.close();
-            FileWriter fw = new FileWriter(accountsPath+name+".txt", true);
-
-
-            fw.write(user+"\n");
-            fw.write(pass+"\n");
-            fw.write("accountType="+newType+"\n");
-
-
-            fw.close();
+            String line = "";
+            while(!(line.contains("accountType="))){
+                line = br.readLine();
+                System.out.println(line);
+            }
+            if(line.contains("accountType=")){
+                //Todo: Implement Logic to change the line variable
+                System.out.println("Changing line now!");
+            }
+            br.close();
             fr.close();
+//            String user = br.readLine();
+//            String pass = br.readLine();
+//
+//            FileWriter fw2 = new FileWriter(accountsPath+name+".txt");
+//            fw2.write("");
+//            fw2.close();
+//            FileWriter fw = new FileWriter(accountsPath+name+".txt", true);
+//
+//
+//            fw.write(user+"\n");
+//            fw.write(pass+"\n");
+//            fw.write("accountType="+newType+"\n");
+//
+//
+//            fw.close();
+//            fr.close();
         }else{
             System.out.println("Wrong pw!");
 

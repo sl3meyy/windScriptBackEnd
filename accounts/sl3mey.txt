@@ -1,0 +1,3 @@
+username=sl3mey
+password=test
+accountType=normal
