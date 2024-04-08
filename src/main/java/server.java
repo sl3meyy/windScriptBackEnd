@@ -24,7 +24,9 @@ public class server {
                 // Receive strings from client
                 String choice = in.readLine();//KI generiert
                 String user = in.readLine();//KI generiert
+                user = user.replace(" ", "");
                 String pass = in.readLine(); //KI generiert
+                pass = pass.replace(" ", "");
 
                 int newChoice = Integer.parseInt(String.valueOf(choice));
 
@@ -48,11 +50,43 @@ public class server {
                             out.println("Account hasn't been deleted!");
                         }
                     }  else if (newChoice == 4) {
-                        out.println("Goodbye!");
-                        break;
+                        int type = functions.readAccountType(user);
+//                        if(type==0){
+//                            System.out.println("Error");
+//                            out.println("Broken Account");
+//                        }else {
+                            if(type == 0 ){
+                                System.out.println("Something went wrong!");
+                                System.out.println(type);
+                            }else{
+                                if (type < 4){
+                                    System.out.println(type);
+                                    System.out.println("test version access granted!");
+                                    out.println("test version access granted!");
+                                }else if(type >= 4){
+                                    System.out.println("You don't have Test Version Access");
+                                }
+                            }
+
+//                        }
+
+                    } else if (newChoice == 5) {
+                        FileReader fr = new FileReader("testVersion.txt");
+                        System.out.println("New Test version!");
+                        //Gives Launcher current test game version
+                        out.println(fr.read());
+                        fr.close();
+                    } else if (newChoice == 6) {
+                        System.out.println("New Public version!");
+                        FileReader fr = new FileReader("publicVersion.txt");
+                        //Gives Launcher current test game version
+                        out.println(fr.read());
+                        fr.close();
                     }
                 } else {
+
                     System.out.println("Received User name, or/and password are empty!");
+                    break;
                 }
 
                 // Send response (optional)

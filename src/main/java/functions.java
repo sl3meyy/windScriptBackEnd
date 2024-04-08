@@ -160,6 +160,44 @@ public class functions {
 
     }
 
+    static int readAccountType(String username) throws IOException {
+
+        FileReader fr = new FileReader(accountsPath+username+".txt");
+        BufferedReader br = new BufferedReader(fr);
+
+        String user = br.readLine();
+        String passw = br.readLine();
+
+        String accType = br.readLine();
+        accType = accType.replace("accountType=", "");
+        switch(accType){
+            case "developer":
+                return 1;
+            case "admin":
+                return 2;
+            case "tester":
+                return 3;
+            case "normal":
+                return 4;
+
+        }
+//        if(accType == "developer"){
+//            return  1;
+//        }else if(accType == "admin"){
+//            return 2;
+//        }else if(accType == "tester"){
+//            return 3;
+//        } else if (accType == "normal") {
+//            return 4;
+//        }else{
+//            fr.close();
+//            return 0;
+//        }
+
+        fr.close();
+        return 0;
+
+    }
 
 
     static boolean deleteAccount(String name, String password) throws IOException {
