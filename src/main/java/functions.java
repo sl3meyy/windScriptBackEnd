@@ -50,6 +50,8 @@ public class functions {
                 String newT = sc.next();
                 System.out.println("Enter the Admin Password!");
                 String pwa = sc.next();
+                pwa.replace(" ", "");
+
                 editAccountType(userna, newT, pwa);
                 break;
         }
@@ -117,26 +119,32 @@ public class functions {
 
     static void editAccountType(String name, String newType, String givenAdminPass) throws IOException {
         //Todo: Just replace Line with "accountType=" with newType. Currently, it's writing whole File new.
+        FileReader fr = new FileReader(accountsPath+name+".txt");
+        BufferedReader br = new BufferedReader(fr);
 
+        String user = br.readLine();
+        String pass = br.readLine();
 //        FileWriter fw = new FileWriter(accountsPath+name+".txt");
 //        BufferedWriter bw = new BufferedWriter(fw);
-
-        if(givenAdminPass.equals("a")){
+        String types = "developer,admin,tester,normal";
+        if(givenAdminPass.equals("a") && types.contains(newType)){
             newType = newType.toLowerCase();
 
-            FileReader fr = new FileReader(accountsPath+name+".txt");
-            BufferedReader br = new BufferedReader(fr);
-            String line = "";
-            while(!(line.contains("accountType="))){
-                line = br.readLine();
-                System.out.println(line);
-            }
-            if(line.contains("accountType=")){
-                //Todo: Implement Logic to change the line variable
-                System.out.println("Changing line now!");
-            }
+
+
+            FileWriter fw = new FileWriter(accountsPath+name+".txt", true);
+            FileWriter fwa = new FileWriter(accountsPath+name+".txt");
+            fwa.write("");
+            fwa.close();
+            fw.write(user+"\n");
+            fw.write(pass+"\n");
+            fw.write("accountType="+newType);
+
+
+            fw.close();
             br.close();
             fr.close();
+            System.out.println("Account type changed successfully!");
 //            String user = br.readLine();
 //            String pass = br.readLine();
 //
@@ -154,7 +162,8 @@ public class functions {
 //            fw.close();
 //            fr.close();
         }else{
-            System.out.println("Wrong pw!");
+            System.out.println("Wrong password or wrong typename !");
+
 
         }
 

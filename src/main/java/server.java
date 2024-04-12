@@ -51,12 +51,9 @@ public class server {
                         }
                     }  else if (newChoice == 4) {
                         int type = functions.readAccountType(user);
-//                        if(type==0){
-//                            System.out.println("Error");
-//                            out.println("Broken Account");
-//                        }else {
                             if(type == 0 ){
                                 System.out.println("Something went wrong!");
+                                out.println("Your account is broken, please contact the support");
                                 System.out.println(type);
                             }else{
                                 if (type < 4){
