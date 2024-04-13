@@ -89,6 +89,7 @@ public class functions {
                 fwa.write("username="+name+"\n");
                 fwa.write("password="+password+"\n");
                 fwa.write("accountType="+accountType.toLowerCase()+"\n");
+                fwa.write("hasBoughtGame=true"); //Todo, actually implement this
                 System.out.println("Registration Complete!");
             }
 
@@ -106,9 +107,9 @@ public class functions {
         String user = br.readLine().replace("username=", "");
         String pass = br.readLine().replace("password=", "");
         String type = br.readLine().replace("accountType=", "");
+        String hasGame = br.readLine().replace("hasBoughtGame=", "");
 
-
-        if(user.equals(name) && pass.equals(password)){
+        if(user.equals(name) && pass.equals(password) && hasGame.equals("true")){
             System.out.println("Login Successful!");
             return true;
         }else{
@@ -117,34 +118,42 @@ public class functions {
         }
     }
 
-    static void editAccountType(String name, String newType, String givenAdminPass) throws IOException {
+    static boolean editAccountType(String name, String newType, String givenAdminPass) throws IOException {
         //Todo: Just replace Line with "accountType=" with newType. Currently, it's writing whole File new.
-        FileReader fr = new FileReader(accountsPath+name+".txt");
-        BufferedReader br = new BufferedReader(fr);
+        File f1 = new File(accountsPath+name+".txt");
+        if(f1.exists()){
+            FileReader fr = new FileReader(accountsPath+name+".txt");
+            BufferedReader br = new BufferedReader(fr);
 
-        String user = br.readLine();
-        String pass = br.readLine();
+            String user = br.readLine();
+            String pass = br.readLine();
+            String acc = br.readLine();
+            String hasBought = br.readLine();
 //        FileWriter fw = new FileWriter(accountsPath+name+".txt");
 //        BufferedWriter bw = new BufferedWriter(fw);
-        String types = "developer,admin,tester,normal";
-        if(givenAdminPass.equals("a") && types.contains(newType)){
-            newType = newType.toLowerCase();
+            String types = "developer,admin,tester,normal";
+            if(givenAdminPass.equals("windScript/!&") && types.contains(newType)){
+                newType = newType.toLowerCase();
 
 
 
-            FileWriter fw = new FileWriter(accountsPath+name+".txt", true);
-            FileWriter fwa = new FileWriter(accountsPath+name+".txt");
-            fwa.write("");
-            fwa.close();
-            fw.write(user+"\n");
-            fw.write(pass+"\n");
-            fw.write("accountType="+newType);
+                FileWriter fw = new FileWriter(accountsPath+name+".txt", true);
+                FileWriter fwa = new FileWriter(accountsPath+name+".txt");
+                fwa.write("");
+                fwa.close();
+                fw.write(user+"\n");
+                fw.write(pass+"\n");
+                fw.write("accountType="+newType+"\n");
+                if(newType == "developer" || newType == "admin" || newType == "tester"){
+                    //Make hasbought == true, but not forever, make another variable just for this, because if the person looses the account type developer for example, and hasn't bought the game before, the person has to buy it!
+                }
+                fw.write(hasBought);
 
 
-            fw.close();
-            br.close();
-            fr.close();
-            System.out.println("Account type changed successfully!");
+                fw.close();
+                br.close();
+                fr.close();
+                System.out.println("Account type changed successfully!");
 //            String user = br.readLine();
 //            String pass = br.readLine();
 //
@@ -161,10 +170,14 @@ public class functions {
 //
 //            fw.close();
 //            fr.close();
-        }else{
-            System.out.println("Wrong password or wrong typename !");
-
-
+                return true;
+            }else{
+                System.out.println("Wrong password or wrong typename !");
+                return false;
+            }
+        }else {
+            System.out.println("User doesn't exist");
+            return false;
         }
 
     }
@@ -178,18 +191,28 @@ public class functions {
         String passw = br.readLine();
 
         String accType = br.readLine();
-        accType = accType.replace("accountType=", "");
-        switch(accType){
-            case "developer":
-                return 1;
-            case "admin":
-                return 2;
-            case "tester":
-                return 3;
-            case "normal":
-                return 4;
-
+        String hasBoughtGame = br.readLine();
+        if(hasBoughtGame == null){
+            return 999;
         }
+        hasBoughtGame = hasBoughtGame.replace("hasBoughtGame=", "");
+        accType = accType.replace("accountType=", "");
+        switch (hasBoughtGame){
+            case "true":
+                switch(accType){
+                    case "developer":
+                        return 1;
+                    case "admin":
+                        return 2;
+                    case "tester":
+                        return 3;
+                    case "normal":
+                        return 4;
+                }
+            case "false":
+                return 999;
+        }
+
 //        if(accType == "developer"){
 //            return  1;
 //        }else if(accType == "admin"){

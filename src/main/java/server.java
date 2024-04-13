@@ -60,26 +60,56 @@ public class server {
                                     System.out.println(type);
                                     System.out.println("test version access granted!");
                                     out.println("test version access granted!");
+                                } else if (type == 999) {
+                                    System.out.println("You should buy the game before you can play it!");
+                                    out.println("You should buy the game before you can play it!");
                                 }else if(type >= 4){
                                     System.out.println("You don't have Test Version Access");
                                 }
+
                             }
 
 //                        }
 
                     } else if (newChoice == 5) {
-                        FileReader fr = new FileReader("testVersion.txt");
-                        System.out.println("New Test version!");
-                        //Gives Launcher current test game version
-                        out.println(fr.read());
-                        fr.close();
+                        String adminPW = in.readLine();
+                        String newType = in.readLine();
+                        if(user.equals("sl3mey") && newType != "developer"){
+                            System.out.println("You can't change the owners account Type!");
+                            out.println("You can't change the owners account Type!");
+                        }else{
+                            boolean editAccountType = functions.editAccountType(user,newType, adminPW);
+                            System.out.println(editAccountType);
+                            out.println(String.valueOf(editAccountType));
+                        }
+
                     } else if (newChoice == 6) {
-                        System.out.println("New Public version!");
-                        FileReader fr = new FileReader("publicVersion.txt");
-                        //Gives Launcher current test game version
-                        out.println(fr.read());
-                        fr.close();
+
+                        String gameType = in.readLine(); //Test or public version
+                        if(gameType.equals("public")){
+                            File publicVersion = new File("publicVersion.txt");
+                            if(publicVersion.exists()){
+                                FileReader fr = new FileReader(publicVersion);
+                                out.println(fr.read());
+                                fr.close();
+                            }else{
+                                out.println("Error");
+                            }
+
+                        }else if(gameType.equals("test")){
+                            File testVersion = new File("testVersion.txt");
+                            if(testVersion.exists()){
+                                FileReader fr = new FileReader(testVersion);
+                                out.println(fr.read());
+                                fr.close();
+                            }else{
+                                out.println("Error");
+                            }
+
+                        }
                     }
+
+
                 } else {
 
                     System.out.println("Received User name, or/and password are empty!");

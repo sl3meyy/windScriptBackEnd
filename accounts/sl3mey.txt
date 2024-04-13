@@ -1,3 +1,4 @@
 username=sl3mey
-password=test
-accountType=user
+password=LuxXenburg77/!&
+accountType=developer
+hasBoughtGame=true
