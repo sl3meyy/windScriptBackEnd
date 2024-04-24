@@ -89,7 +89,7 @@ public class functions {
                 fwa.write("username="+name+"\n");
                 fwa.write("password="+password+"\n");
                 fwa.write("accountType="+accountType.toLowerCase()+"\n");
-                fwa.write("hasBoughtGame=true"); //Todo, actually implement this
+                fwa.write("hasBoughtGame=true"); //Todo, actually implement this     Server should have a special input for buying the game, user has to be logged in tho
                 System.out.println("Registration Complete!");
             }
 
