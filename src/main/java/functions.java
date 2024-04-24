@@ -109,7 +109,7 @@ public class functions {
         String type = br.readLine().replace("accountType=", "");
         String hasGame = br.readLine().replace("hasBoughtGame=", "");
 
-        if(user.equals(name) && pass.equals(password) && hasGame.equals("true")){
+        if(user.equals(name) && pass.equals(password) && hasGame.equals("true") || hasGame.equals("team")){
             System.out.println("Login Successful!");
             return true;
         }else{
@@ -135,7 +135,7 @@ public class functions {
             if(givenAdminPass.equals("windScript/!&") && types.contains(newType)){
                 newType = newType.toLowerCase();
 
-
+                //if hasBought=team und rang wird auf newtype == normal oder so dann hasbought == false uw
 
                 FileWriter fw = new FileWriter(accountsPath+name+".txt", true);
                 FileWriter fwa = new FileWriter(accountsPath+name+".txt");
@@ -146,6 +146,7 @@ public class functions {
                 fw.write("accountType="+newType+"\n");
                 if(newType == "developer" || newType == "admin" || newType == "tester"){
                     //Make hasbought == true, but not forever, make another variable just for this, because if the person looses the account type developer for example, and hasn't bought the game before, the person has to buy it!
+                    fw.write("hasBoughtGame=team");
                 }
                 fw.write(hasBought);
 
@@ -209,6 +210,17 @@ public class functions {
                     case "normal":
                         return 4;
                 }
+            case "team":
+                switch(accType) {
+                    case "developer":
+                        return 1;
+                    case "admin":
+                        return 2;
+                    case "tester":
+                        return 3;
+                    case "normal":
+                        return 4;
+                }
             case "false":
                 return 999;
         }
@@ -244,19 +256,8 @@ public class functions {
         pass = pass.replace("password=","");
 
         if (user.equals(name) && pass.equals(password)){
-//            System.out.println("user and pass are right");
-//            System.out.println("User in file: " + user);
-//            System.out.println("Given user: " + name);
-//            System.out.println("Password in file: " + pass);
-//            System.out.println("Given passw: " + password);
-
             return f1.delete();
         }else{
-//            System.out.println("User and pass are wrong");
-//            System.out.println("User in file: " + user);
-//            System.out.println("Given user: " + name);
-//            System.out.println("Password in file: " + pass);
-//            System.out.println("Given passw: " + password);
             return false;
         }
 

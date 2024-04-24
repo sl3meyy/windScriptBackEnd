@@ -7,7 +7,6 @@ public class server {
         // Define port number
         int port = 8051;
 
-
         ServerSocket serverSocket = new ServerSocket(port);//KI generiert
         System.out.println("Server started on port " + port);
 
