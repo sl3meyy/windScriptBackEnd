@@ -49,7 +49,7 @@ public class server {
                             out.println("Account hasn't been deleted!");
                         }
                     }  else if (newChoice == 4) {
-                        int type = functions.readAccountType(user);
+                        int type = functions.readAccountType(user); //Todo: Make readAccountType function to readAccount or sth like that. This function should also read, if the user is able to play the game, and if yes, what version he's able to play, everything should happen in that function, server shouldn't do anything
                             if(type == 0 ){
                                 System.out.println("Something went wrong!");
                                 out.println("Your account is broken, please contact the support");

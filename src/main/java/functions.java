@@ -89,7 +89,7 @@ public class functions {
                 fwa.write("username="+name+"\n");
                 fwa.write("password="+password+"\n");
                 fwa.write("accountType="+accountType.toLowerCase()+"\n");
-                fwa.write("hasBoughtGame=true"); //Todo, actually implement this     Server should have a special input for buying the game, user has to be logged in tho
+                fwa.write("hasBoughtGame=false"); //Todo, actually implement this     Server should have a special input for buying the game, user has to be logged in tho
                 System.out.println("Registration Complete!");
             }
 
@@ -97,7 +97,31 @@ public class functions {
             return true;
         }
 
+    }
+    static boolean buyGame(String username) throws IOException {
+        FileReader fr = new FileReader(accountsPath+username+".txt");
+        BufferedReader br = new BufferedReader(fr);
+        FileWriter fw = new FileWriter(accountsPath+username+".txt", true);
 
+        String user = br.readLine();
+        String pw = br.readLine();
+        String accType = br.readLine();
+        String hasBoughtGame = br.readLine();
+        
+        if(hasBoughtGame.equals("true") || hasBoughtGame.equals("team")){
+            return false;
+        } else if (hasBoughtGame.equals("false")) {
+            //Todo: Make paying function and return true if it's successful
+            fw.write(user);
+            fw.write(pw);
+            fw.write(accType);
+            fw.write("hasBoughtGame=true");
+
+            return true;
+        }else{
+            fr.close();
+            return false;
+        }
     }
 
     static boolean login(String name, String password) throws IOException {
@@ -121,14 +145,15 @@ public class functions {
     static boolean editAccountType(String name, String newType, String givenAdminPass) throws IOException {
         //Todo: Just replace Line with "accountType=" with newType. Currently, it's writing whole File new.
         File f1 = new File(accountsPath+name+".txt");
+        FileReader fr = new FileReader(accountsPath+name+".txt");
+        BufferedReader br = new BufferedReader(fr);
         if(f1.exists()){
-            FileReader fr = new FileReader(accountsPath+name+".txt");
-            BufferedReader br = new BufferedReader(fr);
 
             String user = br.readLine();
             String pass = br.readLine();
             String acc = br.readLine();
             String hasBought = br.readLine();
+            hasBought=hasBought.replace("hasBoughtGame=", "");
 //        FileWriter fw = new FileWriter(accountsPath+name+".txt");
 //        BufferedWriter bw = new BufferedWriter(fw);
             String types = "developer,admin,tester,normal";
@@ -144,11 +169,29 @@ public class functions {
                 fw.write(user+"\n");
                 fw.write(pass+"\n");
                 fw.write("accountType="+newType+"\n");
-                if(newType == "developer" || newType == "admin" || newType == "tester"){
+                if(newType.equals("developer") || newType.equals("admin") || newType.equals("tester")){
                     //Make hasbought == true, but not forever, make another variable just for this, because if the person looses the account type developer for example, and hasn't bought the game before, the person has to buy it!
-                    fw.write("hasBoughtGame=team");
+
+                    if(hasBought.equals("true")){
+                        fw.write("hasBoughtGame=team-true");
+                    } else if (hasBought.equals("false")) {
+                        fw.write("hasBoughtGame=team-false");
+                    }else{
+                        fw.write("hasBoughtGame=ERROR"+hasBought);
+                    }
                 }
-                fw.write(hasBought);
+                if (newType.equals("normal")) {
+                    fwa.write("");
+                    fwa.close();
+                    fw.write(user);
+                    fw.write(pass);
+                    fw.write("accountType=normal");
+                    if(hasBought.equals("team-true")){
+                        fw.write("hasBoughtGame=true");
+                    } else if (hasBought.equals("team-false")) {
+                        fw.write("hasBoughtGame=false");
+                    }
+                }
 
 
                 fw.close();
