@@ -33,8 +33,10 @@ public class server {
                     if (newChoice == 1) {
                         if (functions.login(user, pass)) {
                             out.println("Login Successful!");
+                            System.out.println("Login Successful!");
                         } else {
                             out.println("User not found!");
+                            System.out.println("User not found!");
                         }
                     } else if (newChoice == 2) {
                         if (functions.register(user, pass)) {
@@ -49,11 +51,10 @@ public class server {
                             out.println("Account hasn't been deleted!");
                         }
                     }  else if (newChoice == 4) {
-                        int type = functions.readAccountType(user); //Todo: Make readAccountType function to readAccount or sth like that. This function should also read, if the user is able to play the game, and if yes, what version he's able to play, everything should happen in that function, server shouldn't do anything
+                        int type = functions.readAccount(user);
                             if(type == 0 ){
                                 System.out.println("Something went wrong!");
                                 out.println("Your account is broken, please contact the support");
-                                System.out.println(type);
                             }else{
                                 if (type < 4){
                                     System.out.println(type);

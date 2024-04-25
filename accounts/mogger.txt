@@ -1,4 +1,0 @@
-username=mogger
-password=getMogged
-accountType=normal
-hasBoughtGame=true

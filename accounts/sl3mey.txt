@@ -1,4 +1,4 @@
 username=sl3mey
-password=LuxXenburg77/!&
-accountType=admin
-hasBoughtGame=ERROR
+password=test
+accountType=developer
+hasBoughtGame=team-true

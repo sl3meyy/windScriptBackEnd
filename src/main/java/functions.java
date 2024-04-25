@@ -133,7 +133,7 @@ public class functions {
         String type = br.readLine().replace("accountType=", "");
         String hasGame = br.readLine().replace("hasBoughtGame=", "");
 
-        if(user.equals(name) && pass.equals(password) && hasGame.equals("true") || hasGame.equals("team")){
+        if(user.equals(name) && pass.equals(password) && hasGame != "false" && hasGame != "ERROR"){
             System.out.println("Login Successful!");
             return true;
         }else{
@@ -226,7 +226,7 @@ public class functions {
 
     }
 
-    static int readAccountType(String username) throws IOException {
+    static int readAccount(String username) throws IOException {
 
         FileReader fr = new FileReader(accountsPath+username+".txt");
         BufferedReader br = new BufferedReader(fr);
@@ -241,32 +241,68 @@ public class functions {
         }
         hasBoughtGame = hasBoughtGame.replace("hasBoughtGame=", "");
         accType = accType.replace("accountType=", "");
-        switch (hasBoughtGame){
-            case "true":
-                switch(accType){
-                    case "developer":
-                        return 1;
-                    case "admin":
-                        return 2;
-                    case "tester":
-                        return 3;
-                    case "normal":
-                        return 4;
-                }
-            case "team":
-                switch(accType) {
-                    case "developer":
-                        return 1;
-                    case "admin":
-                        return 2;
-                    case "tester":
-                        return 3;
-                    case "normal":
-                        return 4;
-                }
-            case "false":
-                return 999;
+        if(hasBoughtGame.equals("true")){
+            switch(accType){
+                case "developer":
+                    return 1;
+                case "admin":
+                    return 2;
+                case "tester":
+                    return 3;
+                case "normal":
+                    return 4;
+            }
+        } else if (hasBoughtGame.contains("team")) {
+            switch(accType){
+                case "developer":
+                    return 1;
+                case "admin":
+                    return 2;
+                case "tester":
+                    return 3;
+                case "normal":
+                    return 4;
+            }
+        } else if (hasBoughtGame.equals("false")) {
+            return 999;
         }
+//        switch (hasBoughtGame){
+//            case "true":
+//                switch(accType){
+//                    case "developer":
+//                        return 1;
+//                    case "admin":
+//                        return 2;
+//                    case "tester":
+//                        return 3;
+//                    case "normal":
+//                        return 4;
+//                }
+//            case "team-false":
+//                switch(accType) {
+//                    case "developer":
+//                        return 1;
+//                    case "admin":
+//                        return 2;
+//                    case "tester":
+//                        return 3;
+//                    case "normal":
+//                        return 4;
+//                }
+//            case "team-true":
+//                switch(accType) {
+//                    case "developer":
+//                        return 1;
+//                    case "admin":
+//                        return 2;
+//                    case "tester":
+//                        return 3;
+//                    case "normal":
+//                        return 4;
+//                }
+//            case "false":
+//                return 999;
+//        }
 
 //        if(accType == "developer"){
 //            return  1;
