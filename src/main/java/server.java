@@ -56,7 +56,9 @@ public class server {
                                 System.out.println("Something went wrong!");
                                 out.println("Your account is broken, please contact the support");
                             }else{
-                                if (type < 4){
+                                if(type == 1){
+                                    out.println("developer");
+                                } else if (type < 4){
                                     System.out.println(type);
                                     System.out.println("test version access granted!");
                                     out.println("test version access granted!");
