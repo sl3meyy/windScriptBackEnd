@@ -58,6 +58,8 @@ public class server {
                             }else{
                                 if(type == 1){
                                     out.println("developer");
+                                } else if (type < 3) {
+                                    out.println("team");
                                 } else if (type < 4){
                                     System.out.println(type);
                                     System.out.println("test version access granted!");

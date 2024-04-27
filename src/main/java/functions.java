@@ -89,7 +89,7 @@ public class functions {
                 fwa.write("username="+name+"\n");
                 fwa.write("password="+password+"\n");
                 fwa.write("accountType="+accountType.toLowerCase()+"\n");
-                fwa.write("hasBoughtGame=false"); //Todo, actually implement this     Server should have a special input for buying the game, user has to be logged in tho
+                fwa.write("hasBoughtGame=false");
                 System.out.println("Registration Complete!");
             }
 
@@ -143,7 +143,7 @@ public class functions {
     }
 
     static boolean editAccountType(String name, String newType, String givenAdminPass) throws IOException {
-        //Todo: Just replace Line with "accountType=" with newType. Currently, it's writing whole File new.
+
         File f1 = new File(accountsPath+name+".txt");
         FileReader fr = new FileReader(accountsPath+name+".txt");
         BufferedReader br = new BufferedReader(fr);
