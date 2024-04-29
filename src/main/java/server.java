@@ -67,28 +67,29 @@ public class server {
                                 } else if (type == 999) {
                                     System.out.println("You should buy the game before you can play it!");
                                     out.println("You should buy the game before you can play it!");
-                                }else if(type >= 4){
+                                }else {
                                     System.out.println("You don't have Test Version Access");
                                 }
 
                             }
 
-//                        }
+
 
                     } else if (newChoice == 5) {
                         String adminPW = in.readLine();
                         String newType = in.readLine();
-                        if(user.equals("sl3mey") && newType != "developer"){
+                        if(user.equals("sl3mey") && !(newType.equals("developer"))){
                             System.out.println("You can't change the owners account Type!");
                             out.println("You can't change the owners account Type!");
                         }else{
                             boolean editAccountType = functions.editAccountType(user,newType, adminPW);
                             System.out.println(editAccountType);
-                            out.println(String.valueOf(editAccountType));
+                            out.println(editAccountType);
                         }
 
                     } else if (newChoice == 6) {
-
+                        //ToDo: Implement Game version checking on Server and Launcher / Client
+                        
                         String gameType = in.readLine(); //Test or public version
                         if(gameType.equals("public")){
                             File publicVersion = new File("publicVersion.txt");
