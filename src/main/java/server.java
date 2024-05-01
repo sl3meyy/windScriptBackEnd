@@ -26,14 +26,14 @@ public class server {
 
                 // Receive strings from client
                 String choice = in.readLine();//KI generiert
-                //ToDo: String email = in.readLine();
+                String email = in.readLine();
                 String user = in.readLine();//KI generiert
                 String pass = in.readLine(); //KI generiert
-                //ToDo: email = email.replace(" ", "");
+                email = email.replace(" ", "");
                 user = user.replace(" ", "");
                 pass = pass.replace(" ", "");
 
-                String email = "placeholder@windscript.net";
+
 
                 int newChoice = Integer.parseInt(String.valueOf(choice));
 
