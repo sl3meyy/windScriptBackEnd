@@ -1,6 +1,10 @@
 import java.io.*;
 import java.net.*;
 
+//ToDo: Make Performance profiling, performance tests for 1 hour, 2 hour and so on, without request from client, always write it to a file an
+//ToDO: Also require email, username is just ingame, login and registration working with email, and send Emails to users on registration or sth like that, with Verification code
+
+
 public class server {
     public static void main(String[] args) throws IOException {
 
@@ -22,16 +26,20 @@ public class server {
 
                 // Receive strings from client
                 String choice = in.readLine();//KI generiert
+                //ToDo: String email = in.readLine();
                 String user = in.readLine();//KI generiert
-                user = user.replace(" ", "");
                 String pass = in.readLine(); //KI generiert
+                //ToDo: email = email.replace(" ", "");
+                user = user.replace(" ", "");
                 pass = pass.replace(" ", "");
+
+                String email = "placeholder@windscript.net";
 
                 int newChoice = Integer.parseInt(String.valueOf(choice));
 
                 if (!(user.isEmpty() && pass.isEmpty())) {
                     if (newChoice == 1) {
-                        if (functions.login(user, pass)) {
+                        if (functions.login(email, user, pass)) {
                             out.println("Login Successful!");
                             System.out.println("Login Successful!");
                         } else {
@@ -39,39 +47,39 @@ public class server {
                             System.out.println("User not found!");
                         }
                     } else if (newChoice == 2) {
-                        if (functions.register(user, pass)) {
+                        if (functions.register(email, user, pass)) {
                             out.println("Registration Successful!");
                         } else {
                             out.println("Username is taken!");
                         }
                     } else if (newChoice == 3) {
-                        if (functions.deleteAccount(user, pass)) {
+                        if (functions.deleteAccount(email, user, pass)) {
                             out.println("Account deleted!");
                         } else {
                             out.println("Account hasn't been deleted!");
                         }
                     }  else if (newChoice == 4) {
                         int type = functions.readAccount(user);
-                            if(type == 0 ){
-                                System.out.println("Something went wrong!");
-                                out.println("Your account is broken, please contact the support");
-                            }else{
-                                if(type == 1){
-                                    out.println("developer");
-                                } else if (type < 3) {
-                                    out.println("team");
-                                } else if (type < 4){
-                                    System.out.println(type);
-                                    System.out.println("test version access granted!");
-                                    out.println("test version access granted!");
-                                } else if (type == 999) {
-                                    System.out.println("You should buy the game before you can play it!");
-                                    out.println("You should buy the game before you can play it!");
-                                }else if(type >= 4){
-                                    System.out.println("You don't have Test Version Access");
-                                }
-
+                        if(type == 0 ){
+                            System.out.println("Something went wrong!");
+                            out.println("Your account is broken, please contact the support");
+                        }else{
+                            if(type == 1){
+                                out.println("developer");
+                            } else if (type < 3) {
+                                out.println("team");
+                            } else if (type < 4){
+                                System.out.println(type);
+                                System.out.println("test version access granted!");
+                                out.println("test version access granted!");
+                            } else if (type == 999) {
+                                System.out.println("You should buy the game before you can play it!");
+                                out.println("You should buy the game before you can play it!");
+                            }else if(type >= 4){
+                                System.out.println("You don't have Test Version Access");
                             }
+
+                        }
 
 //                        }
 
@@ -111,6 +119,9 @@ public class server {
                             }
 
                         }
+                    } else if (newChoice == 6) {
+                        String testDuration = in.readLine();
+
                     }
 
 
@@ -121,7 +132,7 @@ public class server {
                 }
 
                 // Send response (optional)
-                System.out.println("\nReceived Choice: " + choice + "\nReceived User: " + user + "\nReceived Password: " + pass + "\n");
+                //System.out.println("\nReceived Choice: " + choice + "\nReceived User: " + user + "\nReceived Password: " + pass + "\n");
                 out.println("Informations Received: \nUsername: " + user + "\nPassword: " + pass + "\nChoice: " + choice);
 
                 // Close resources

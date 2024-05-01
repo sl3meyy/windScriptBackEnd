@@ -1,0 +1,5 @@
+username=lol
+password=vyDpuv-cehmux-tezxy5
+email=placeholder@windscript.net
+accountType=normal
+hasBoughtGame=false

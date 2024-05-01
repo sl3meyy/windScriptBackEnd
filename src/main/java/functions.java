@@ -1,5 +1,10 @@
 import java.io.*;
+import java.lang.management.ManagementFactory;
 import java.util.Scanner;
+import com.sun.management.OperatingSystemMXBean;
+import oshi.SystemInfo;
+import oshi.hardware.HardwareAbstractionLayer;
+import oshi.software.os.OperatingSystem;
 
 public class functions {
 
@@ -23,21 +28,33 @@ public class functions {
                 String username = sc.next();
                 System.out.println("Enter a password!");
                 String pw = sc.next();
-                register(username, pw);
+                System.out.println("Enter your email");
+                String email = sc.next();
+                int randomNumber = emailWindScript.generateRandomNumber(100000, 999999);
+                verifyEmail(email, randomNumber);
+                System.out.println("Enter the verification code we sent you");
+                String code = sc.next();
+                if(String.valueOf(randomNumber).equals(code)) {
+                    register(email, username, pw);
+                }
                 break;
             case "l":
                 System.out.println("Enter your username");
                 String usern = sc.next();
                 System.out.println("Enter your password");
                 String passw = sc.next();
-                login(usern, passw);
+                System.out.println("Enter your email");
+                String emaill = sc.next();
+                login(emaill, usern, passw);
                 break;
             case "d":
                 System.out.println("Enter your username");
                 String user = sc.next();
                 System.out.println("Enter your password");
                 String pass = sc.next();
-                if (deleteAccount(user, pass)) {
+                System.out.println("Enter your email");
+                String emailll = sc.next();
+                if (deleteAccount(emailll, user, pass)) {
                     System.out.println("Account has been deleted Successfully!");
                 }else {
                     System.out.println("Account hasn't been deleted, try again later!");
@@ -54,6 +71,14 @@ public class functions {
 
                 editAccountType(userna, newT, pwa);
                 break;
+            case "cpu":
+                double[] avgUsage = measureResourceUsage(10);
+
+                // Print average usage
+                System.out.println("Average CPU Usage: " + avgUsage[0] + "%");
+                System.out.println("Average RAM Usage: " + avgUsage[1] + "%");
+                System.out.println("Average GPU Usage: " + avgUsage[2] + "%");
+                break;
         }
 
 
@@ -61,12 +86,13 @@ public class functions {
 
 
     //Google Gemini Start
-    static boolean register(String name, String password) throws IOException {
-        return registerr(name, password, "normal");
+    static boolean register(String email, String name, String password) throws IOException {
+        return registerr(email, name, password, "normal");
     }
     //Google Gemini Ende
 
-    static boolean registerr(String name, String password, String accountType) throws IOException {
+    static boolean registerr(String email, String name, String password, String accountType) throws IOException {
+        //ToDo: Implement Email verification
         new File("accounts").mkdir();
 
         File f1 = new File(accountsPath+name+".txt");
@@ -84,10 +110,11 @@ public class functions {
                 fwa.write("Same User And Password");
                 return false;
             }
-            else{
+            else {
                 fw.write("");
                 fwa.write("username="+name+"\n");
                 fwa.write("password="+password+"\n");
+                fwa.write("email="+email+"\n");
                 fwa.write("accountType="+accountType.toLowerCase()+"\n");
                 fwa.write("hasBoughtGame=false");
                 System.out.println("Registration Complete!");
@@ -98,6 +125,13 @@ public class functions {
         }
 
     }
+
+    static boolean verifyEmail(String emailAdress, int randomNumber){
+        // Sende die Zahl per E-Mail
+        emailWindScript.sendEmail("@windhost.net", emailAdress, "Auth Code", "Your authentification code is" + randomNumber + "\nDon't give anyone this code");
+
+        return true;
+    }
     static boolean buyGame(String username) throws IOException {
         FileReader fr = new FileReader(accountsPath+username+".txt");
         BufferedReader br = new BufferedReader(fr);
@@ -105,6 +139,7 @@ public class functions {
 
         String user = br.readLine();
         String pw = br.readLine();
+        String email = br.readLine();
         String accType = br.readLine();
         String hasBoughtGame = br.readLine();
         
@@ -114,6 +149,7 @@ public class functions {
             //Todo: Make paying function and return true if it's successful
             fw.write(user);
             fw.write(pw);
+            fw.write(email);
             fw.write(accType);
             fw.write("hasBoughtGame=true");
 
@@ -124,16 +160,17 @@ public class functions {
         }
     }
 
-    static boolean login(String name, String password) throws IOException {
+    static boolean login(String email, String name, String password) throws IOException {
         FileReader fr = new FileReader(accountsPath+name+".txt");
         BufferedReader br = new BufferedReader(fr);
 
         String user = br.readLine().replace("username=", "");
         String pass = br.readLine().replace("password=", "");
+        String mail = br.readLine().replace("email=", "");
         String type = br.readLine().replace("accountType=", "");
         String hasGame = br.readLine().replace("hasBoughtGame=", "");
 
-        if(user.equals(name) && pass.equals(password) && hasGame != "false" && hasGame != "ERROR"){
+        if(user.equals(name) && pass.equals(password) && mail.equals(email) && hasGame != "false" && hasGame != "ERROR"){
             System.out.println("Login Successful!");
             return true;
         }else{
@@ -142,54 +179,55 @@ public class functions {
         }
     }
 
+
+
     static boolean editAccountType(String name, String newType, String givenAdminPass) throws IOException {
 
-        File f1 = new File(accountsPath+name+".txt");
-        FileReader fr = new FileReader(accountsPath+name+".txt");
+        File f1 = new File(accountsPath + name + ".txt");
+        FileReader fr = new FileReader(accountsPath + name + ".txt");
         BufferedReader br = new BufferedReader(fr);
-        if(f1.exists()){
-
+        if (f1.exists()) {
             String user = br.readLine();
             String pass = br.readLine();
-            String acc = br.readLine();
+            String email = br.readLine();
+            String accT = br.readLine();
             String hasBought = br.readLine();
-            hasBought=hasBought.replace("hasBoughtGame=", "");
+            hasBought = hasBought.replace("hasBoughtGame=", "");
 //        FileWriter fw = new FileWriter(accountsPath+name+".txt");
 //        BufferedWriter bw = new BufferedWriter(fw);
             String types = "developer,admin,tester,normal";
-            if(givenAdminPass.equals("windScript/!&") && types.contains(newType)){
+            if (givenAdminPass.equals("windScript/!&") && types.contains(newType)) {
                 newType = newType.toLowerCase();
 
-                //if hasBought=team und rang wird auf newtype == normal oder so dann hasbought == false uw
 
-                FileWriter fw = new FileWriter(accountsPath+name+".txt", true);
-                FileWriter fwa = new FileWriter(accountsPath+name+".txt");
+                FileWriter fw = new FileWriter(accountsPath + name + ".txt", true);
+                FileWriter fwa = new FileWriter(accountsPath + name + ".txt");
                 fwa.write("");
                 fwa.close();
-                fw.write(user+"\n");
-                fw.write(pass+"\n");
-                fw.write("accountType="+newType+"\n");
-                if(newType.equals("developer") || newType.equals("admin") || newType.equals("tester")){
+                fw.write(user + "\n");
+                fw.write(pass + "\n");
+                fw.write(email + "\n");
+                fw.write("accountType=" + newType + "\n");
+                if (newType.equals("developer") || newType.equals("admin") || newType.equals("tester")) {
                     //Make hasbought == true, but not forever, make another variable just for this, because if the person looses the account type developer for example, and hasn't bought the game before, the person has to buy it!
 
-                    if(hasBought.equals("true")){
+                    if (hasBought.equals("true")) {
                         fw.write("hasBoughtGame=team-true");
                     } else if (hasBought.equals("false")) {
                         fw.write("hasBoughtGame=team-false");
-                    }else{
-                        fw.write("hasBoughtGame=ERROR"+hasBought);
+                    } else {
+                        fw.write("hasBoughtGame=ERROR" + hasBought);
                     }
                 }
                 if (newType.equals("normal")) {
-                    fwa.write("");
-                    fwa.close();
-                    fw.write(user);
-                    fw.write(pass);
-                    fw.write("accountType=normal");
-                    if(hasBought.equals("team-true")){
+
+                    fw.write("accountType=normal\n");
+                    if (hasBought.equals("team-true")) {
                         fw.write("hasBoughtGame=true");
                     } else if (hasBought.equals("team-false")) {
                         fw.write("hasBoughtGame=false");
+                    } else {
+                        fw.write("hasBoughtGame=" + hasBought);
                     }
                 }
 
@@ -215,11 +253,11 @@ public class functions {
 //            fw.close();
 //            fr.close();
                 return true;
-            }else{
+            } else {
                 System.out.println("Wrong password or wrong typename !");
                 return false;
             }
-        }else {
+        } else {
             System.out.println("User doesn't exist");
             return false;
         }
@@ -227,12 +265,13 @@ public class functions {
     }
 
     static int readAccount(String username) throws IOException {
-
+        //ToDo: Make team member checking with email instead of username. Also send user an email on accoun Type change
         FileReader fr = new FileReader(accountsPath+username+".txt");
         BufferedReader br = new BufferedReader(fr);
 
         String user = br.readLine();
         String passw = br.readLine();
+        String email = br.readLine();
 
         String accType = br.readLine();
         String hasBoughtGame = br.readLine();
@@ -266,56 +305,6 @@ public class functions {
         } else if (hasBoughtGame.equals("false")) {
             return 999;
         }
-//        switch (hasBoughtGame){
-//            case "true":
-//                switch(accType){
-//                    case "developer":
-//                        return 1;
-//                    case "admin":
-//                        return 2;
-//                    case "tester":
-//                        return 3;
-//                    case "normal":
-//                        return 4;
-//                }
-//            case "team-false":
-//                switch(accType) {
-//                    case "developer":
-//                        return 1;
-//                    case "admin":
-//                        return 2;
-//                    case "tester":
-//                        return 3;
-//                    case "normal":
-//                        return 4;
-//                }
-//            case "team-true":
-//                switch(accType) {
-//                    case "developer":
-//                        return 1;
-//                    case "admin":
-//                        return 2;
-//                    case "tester":
-//                        return 3;
-//                    case "normal":
-//                        return 4;
-//                }
-//            case "false":
-//                return 999;
-//        }
-
-//        if(accType == "developer"){
-//            return  1;
-//        }else if(accType == "admin"){
-//            return 2;
-//        }else if(accType == "tester"){
-//            return 3;
-//        } else if (accType == "normal") {
-//            return 4;
-//        }else{
-//            fr.close();
-//            return 0;
-//        }
 
         fr.close();
         return 0;
@@ -323,18 +312,18 @@ public class functions {
     }
 
 
-    static boolean deleteAccount(String name, String password) throws IOException {
+    static boolean deleteAccount(String email, String name, String password) throws IOException {
         File f1 = new File(accountsPath+name+".txt");
         FileReader fr = new FileReader(accountsPath+name+".txt");
         BufferedReader br = new BufferedReader(fr);
 
         String user = br.readLine();
         String pass = br.readLine();
-
+        String mail = br.readLine();
         user = user.replace("username=", "");
         pass = pass.replace("password=","");
 
-        if (user.equals(name) && pass.equals(password)){
+        if (user.equals(name) && pass.equals(password) && mail.equals(email)){
             return f1.delete();
         }else{
             return false;
@@ -342,4 +331,48 @@ public class functions {
 
 //        return false;
     }
+    public static double[] measureResourceUsage(int durationInSeconds) {
+        double[] avgUsage = new double[3]; // Index 0: CPU, Index 1: RAM, Index 2: GPU
+
+        // Start time
+        long startTime = System.currentTimeMillis();
+
+        // Variables to store cumulative usage
+        double totalCpuUsage = 0.0;
+        double totalRamUsage = 0.0;
+        double totalGpuUsage = 0.0;
+
+        // SystemInfo object to access hardware information
+        SystemInfo systemInfo = new SystemInfo();
+        HardwareAbstractionLayer hardware = systemInfo.getHardware();
+
+        // OperatingSystem object to access operating system information
+        OperatingSystem operatingSystem = systemInfo.getOperatingSystem();
+
+        // Measure resource usage for the specified duration
+        while (System.currentTimeMillis() - startTime < durationInSeconds * 1000) {
+            // CPU Usage
+            OperatingSystemMXBean osBean = ManagementFactory.getPlatformMXBean(OperatingSystemMXBean.class);
+            double cpuUsage = osBean.getSystemCpuLoad() * 100;
+            totalCpuUsage += cpuUsage;
+
+            // RAM Usage
+            double ramUsage = (hardware.getMemory().getTotal() - hardware.getMemory().getAvailable()) /
+                    (double) hardware.getMemory().getTotal() * 100;
+            totalRamUsage += ramUsage;
+
+            // GPU Usage (Sample implementation, might vary based on GPU model and drivers)
+            // Replace with appropriate GPU monitoring library or method
+            double gpuUsage = 0.0; // Sample GPU usage measurement
+            totalGpuUsage += gpuUsage;
+        }
+
+        // Calculate average usage
+        avgUsage[0] = totalCpuUsage / durationInSeconds;
+        avgUsage[1] = totalRamUsage / durationInSeconds;
+        avgUsage[2] = totalGpuUsage / durationInSeconds;
+
+        return avgUsage;
+    }
+
 }
