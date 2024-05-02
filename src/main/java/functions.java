@@ -28,8 +28,18 @@ public class functions {
                 String username = sc.next();
                 System.out.println("Enter a password!");
                 String pw = sc.next();
-                final String email = "placeholder@windscript.net";
-                register(email, username, pw);
+                System.out.println("Enter your email adress");
+                String email = sc.next();
+                int randomNumber = emailWindScript.generateRandomNumber(100000, 999999);
+                emailWindScript.sendEmail(email, "Auth Code", "Your authentication code is \n\n" + randomNumber + "\n\nDon't give anyone this code");
+                System.out.println("Enter authcode");
+                String authcode = sc.next();
+                System.out.println(authcode);
+                if(String.valueOf(randomNumber).equals(authcode)){
+                    register(email, username, pw);
+                }else{
+                    System.out.println("Error, wrong auth-code!");
+                }
 
                 break;
             case "l":

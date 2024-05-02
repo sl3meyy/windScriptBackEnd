@@ -38,7 +38,7 @@ public class server {
                 int newChoice = Integer.parseInt(String.valueOf(choice));
 
                 if (!(user.isEmpty() && pass.isEmpty())) {
-                    if (newChoice == 1) {
+                    if (newChoice == 1) { //ToDo: Implement verify logic here (login)
                         if (functions.login(email, user, pass)) {
                             out.println("Login Successful!");
                             System.out.println("Login Successful!");
@@ -46,13 +46,13 @@ public class server {
                             out.println("User not found!");
                             System.out.println("User not found!");
                         }
-                    } else if (newChoice == 2) {
+                    } else if (newChoice == 2) { //ToDo: Implement verify logic here (register)
                         if (functions.register(email, user, pass)) {
                             out.println("Registration Successful!");
                         } else {
                             out.println("Username is taken!");
                         }
-                    } else if (newChoice == 3) {
+                    } else if (newChoice == 3) { //ToDo: Implement verify logic here (account delete)
                         if (functions.deleteAccount(email, user, pass)) {
                             out.println("Account deleted!");
                         } else {
