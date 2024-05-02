@@ -16,7 +16,6 @@ public class emailWindScript {
         Random random = new Random();
         return random.nextInt(max - min + 1) + min;
     }
-
     // Methode zum Senden einer E-Mail
     public static void sendEmail(String fromEmail, String toEmail, String subject, String body) {
         // SMTP-Server-Konfiguration

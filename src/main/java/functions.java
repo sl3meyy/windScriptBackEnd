@@ -28,15 +28,9 @@ public class functions {
                 String username = sc.next();
                 System.out.println("Enter a password!");
                 String pw = sc.next();
-                System.out.println("Enter your email");
-                String email = sc.next();
-                int randomNumber = emailWindScript.generateRandomNumber(100000, 999999);
-                verifyEmail(email, randomNumber);
-                System.out.println("Enter the verification code we sent you");
-                String code = sc.next();
-                if(String.valueOf(randomNumber).equals(code)) {
-                    register(email, username, pw);
-                }
+                final String email = "placeholder@windscript.net";
+                register(email, username, pw);
+
                 break;
             case "l":
                 System.out.println("Enter your username");
@@ -126,12 +120,6 @@ public class functions {
 
     }
 
-    static boolean verifyEmail(String emailAdress, int randomNumber){
-        // Sende die Zahl per E-Mail
-        emailWindScript.sendEmail("@windhost.net", emailAdress, "Auth Code", "Your authentification code is" + randomNumber + "\nDon't give anyone this code");
-
-        return true;
-    }
     static boolean buyGame(String username) throws IOException {
         FileReader fr = new FileReader(accountsPath+username+".txt");
         BufferedReader br = new BufferedReader(fr);

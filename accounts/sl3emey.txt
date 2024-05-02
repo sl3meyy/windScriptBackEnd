@@ -1,5 +1,0 @@
-username=sl3emey
-password=test
-email=sl3mey@icloud.com
-accountType=admin
-hasBoughtGame=team-false
