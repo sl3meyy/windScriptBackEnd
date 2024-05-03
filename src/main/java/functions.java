@@ -31,7 +31,7 @@ public class functions {
                 System.out.println("Enter your email adress");
                 String email = sc.next();
                 int randomNumber = emailWindScript.generateRandomNumber(100000, 999999);
-                emailWindScript.sendEmail(email, "Auth Code", "Your authentication code is \n\n" + randomNumber + "\n\nDon't give anyone this code");
+                emailWindScript.sendEmail(email, "Auth Code", "Your authentication code is \n\n" + randomNumber + "\n\nDon't give anyone this code. \n\n\nIf you don't know where this code could come from, just ignore it, and delete this email");
                 System.out.println("Enter authcode");
                 String authcode = sc.next();
                 System.out.println(authcode);
