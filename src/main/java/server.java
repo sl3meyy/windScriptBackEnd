@@ -1,9 +1,9 @@
 import java.io.*;
 import java.net.*;
+import java.nio.charset.StandardCharsets;
 
 //ToDo: Make Performance profiling, performance tests for 1 hour, 2 hour and so on, without request from client, always write it to a file an
-//ToDO: Also require email, username is just ingame, login and registration working with email, and send Emails to users on registration or sth like that, with Verification code
-
+//ToDo: Implement Multithreading
 
 public class server {
     public static void main(String[] args) throws IOException {
@@ -29,10 +29,16 @@ public class server {
                 String email = in.readLine();
                 String user = in.readLine();//KI generiert
                 String pass = in.readLine(); //KI generiert
+                System.out.println(email);
+                System.out.println(user);
+                System.out.println(pass);
+                System.out.println("----------");
                 email = email.replace(" ", "");
                 user = user.replace(" ", "");
                 pass = pass.replace(" ", "");
-
+                System.out.println(email);
+                System.out.println(user);
+                System.out.println(pass);
 
 
                 int newChoice = Integer.parseInt(String.valueOf(choice));
@@ -47,11 +53,20 @@ public class server {
                             System.out.println("User not found!");
                         }
                     } else if (newChoice == 2) { //ToDo: Implement verify logic here (register)
-                        if (functions.register(email, user, pass)) {
-                            out.println("Registration Successful!");
-                        } else {
-                            out.println("Username is taken!");
+
+                        int randomNumber = emailWindScript.generateRandomNumber(100000, 999999);
+                        emailWindScript.sendEmail(email, "Auth Code", "Your authentication code is \n\n" + randomNumber + "\n\nDon't give anyone this code. \n\n\nIf you don't know where this code could come from, just ignore it, and delete this email");
+                        String authcode = in.readLine();
+
+                        if(String.valueOf(randomNumber).equals(authcode)){
+                            if (functions.register(email, user, pass)) {
+                                out.println("Registration Successful!");
+                                emailWindScript.sendEmail(email, "Registration Successful!", "Your Account has been registred, don't share your account infos with others");
+                            } else {
+                                out.println("Username is taken!");
+                            }
                         }
+
                     } else if (newChoice == 3) { //ToDo: Implement verify logic here (account delete)
                         if (functions.deleteAccount(email, user, pass)) {
                             out.println("Account deleted!");
@@ -119,8 +134,9 @@ public class server {
                             }
 
                         }
-                    } else if (newChoice == 6) {
-                        String testDuration = in.readLine();
+                    } else if (newChoice == 7) {
+                        //ToDo: Add Account verification here. More detail in next Lines comment
+                        //User registers with newchoice 2, and get's an auth code sent, in this function the codes gonna get compared and then the user get's registered
 
                     }
 
