@@ -3,7 +3,7 @@ import java.net.ServerSocket
 
 //ToDo: Make Performance profiling, performance tests for 1 hour, 2 hour and so on, without request from client, always write it to a file an
 //ToDO: Also require email, username is just ingame, login and registration working with email, and send Emails to users on registration or sth like that, with Verification code
-object server {
+object serverr {
     @Throws(IOException::class)
     @JvmStatic
     fun main(args: Array<String>) {
@@ -26,13 +26,13 @@ object server {
 
                 // Receive strings from client
                 val choice = `in`.readLine() //KI generiert
-                //var email = `in`.readLine()
+                var email = `in`.readLine()
                 var user = `in`.readLine() //KI generiert
                 var pass = `in`.readLine() //KI generiert
-                //email = email.replace(" ", "")
+                email = email.replace(" ", "")
                 user = user.replace(" ", "")
                 pass = pass.replace(" ", "")
-                val email = "placeholder@windscript.net";
+
 
                 val newChoice = choice.toString().toInt()
 

@@ -4,7 +4,10 @@ import java.io.*
 import java.lang.management.ManagementFactory
 import java.util.*
 
-object functions {
+
+
+
+object functionss {
     var accountsPath: String = "accounts/"
 
 
@@ -100,7 +103,7 @@ object functions {
     //Google Gemini Ende
     @Throws(IOException::class)
     fun registerr(email: String, name: String, password: String, accountType: String): Boolean {
-        //ToDo: Implement Email verification
+        //ToDo: Implement checking for emails already in use (for loop ??)
         File("accounts").mkdir()
 
         val f1 = File(accountsPath + name + ".txt")

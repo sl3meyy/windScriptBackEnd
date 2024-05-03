@@ -3,7 +3,7 @@ import javax.mail.*
 import javax.mail.internet.InternetAddress
 import javax.mail.internet.MimeMessage
 
-object emailWindScript {
+object emailWindScriptt {
     @JvmStatic
     fun main(args: Array<String>) {
         val randomNumber = generateRandomNumber(100000, 999999)
