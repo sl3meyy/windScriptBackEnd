@@ -28,15 +28,19 @@ public class functions {
                 String username = sc.next();
                 System.out.println("Enter a password!");
                 String pw = sc.next();
-                System.out.println("Enter your email");
+                System.out.println("Enter your email adress");
                 String email = sc.next();
                 int randomNumber = emailWindScript.generateRandomNumber(100000, 999999);
-                verifyEmail(email, randomNumber);
-                System.out.println("Enter the verification code we sent you");
-                String code = sc.next();
-                if(String.valueOf(randomNumber).equals(code)) {
+                emailWindScript.sendEmail(email, "Auth Code", "Your authentication code is \n\n" + randomNumber + "\n\nDon't give anyone this code. \n\n\nIf you don't know where this code could come from, just ignore it, and delete this email");
+                System.out.println("Enter authcode");
+                String authcode = sc.next();
+                System.out.println(authcode);
+                if(String.valueOf(randomNumber).equals(authcode)){
                     register(email, username, pw);
+                }else{
+                    System.out.println("Error, wrong auth-code!");
                 }
+
                 break;
             case "l":
                 System.out.println("Enter your username");
@@ -126,12 +130,6 @@ public class functions {
 
     }
 
-    static boolean verifyEmail(String emailAdress, int randomNumber){
-        // Sende die Zahl per E-Mail
-        emailWindScript.sendEmail("@windhost.net", emailAdress, "Auth Code", "Your authentification code is" + randomNumber + "\nDon't give anyone this code");
-
-        return true;
-    }
     static boolean buyGame(String username) throws IOException {
         FileReader fr = new FileReader(accountsPath+username+".txt");
         BufferedReader br = new BufferedReader(fr);
