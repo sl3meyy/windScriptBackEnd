@@ -48,6 +48,7 @@ object serverr {
                     } else if (newChoice == 2) { //ToDo: Implement verify logic here (register)
                         if (functions.register(email, user, pass)) {
                             out.println("Registration Successful!")
+                            emailWindScriptt.sendEmail(email, "Registration Complete", "Registration is complete!")
                         } else {
                             out.println("Username is taken!")
                         }

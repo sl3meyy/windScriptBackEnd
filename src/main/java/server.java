@@ -1,18 +1,34 @@
+import javax.annotation.processing.Filer;
 import java.io.*;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
 
 //ToDo: Make Performance profiling, performance tests for 1 hour, 2 hour and so on, without request from client, always write it to a file an
 //ToDo: Implement Multithreading
+//ToDo: Check for newer Versions
 
 public class server {
     public static void main(String[] args) throws IOException {
 
         // Define port number
         int port = 8051;
+        boolean newVersionFound = false;
 
         ServerSocket serverSocket = new ServerSocket(port);//KI generiert
-        System.out.println("Server started on port " + port);
+        FileReader freader = new FileReader("serverVersion.txt");
+        BufferedReader breader = new BufferedReader(freader);
+
+        System.out.println("Server running on Version: " + breader.readLine());
+        System.out.println("Checking for new version…");
+
+        if(newVersionFound){
+            System.out.println("Updating…");
+        }else {
+            System.out.println("You are running on the latest Version!");
+        }
+
+        System.out.println("\nServer started on port " + port);
+        System.out.println("===============================");
 
         while (true) {
             try {
