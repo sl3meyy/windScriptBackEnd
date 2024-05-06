@@ -7,12 +7,14 @@ import java.util.Random;
 import java.util.Scanner;
 
 //ToDo: Implement Login
+//ToDo: Implement Email sending on successful registration, not on trying to register
+//ToDo: Maybe eine art team = true / false machen, das wird dann beim game auch überprüft, aber hauptsächlich wegen auth usw
 
 public class databsetest {
     static String serverIp = "mongodb://localhost:27017";
     static Scanner sc = new Scanner(System.in);
     public static void main(String[] args) {
-        test();
+        registerWithConsole();
     }
     static void registerWithConsole(){
         System.out.println("Enter your username: ");
@@ -154,29 +156,6 @@ public class databsetest {
             sb.append(CHARACTERS.charAt(randomIndex));
         }
         return sb.toString();
-    }
-    static void test(){
-        int x = 0;
-        int y = 200;
-        while(x < y){
-            x++;
-
-            String randomString = generateRandomString();
-            MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
-            MongoDatabase database = mongoClient.getDatabase("accounts");
-            // Einzelnes Document für Name und Alter erstellen
-            Document document = new Document();
-            document.append("username", randomString);
-            document.append("password", "password"); // Alter als Zahl speichern
-            document.append("email", "email");
-            document.append("accountType", "normal");
-            document.append("hasBoughtGame", "false");
-            document.append("wave", 5);
-
-            // Dokument in die Datenbank einfügen
-            database.getCollection("windscript").insertOne(document);
-
-        }
     }
 
 }
