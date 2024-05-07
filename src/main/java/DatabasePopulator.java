@@ -25,9 +25,9 @@ public class DatabasePopulator {
         ConnectionString connectionString = new ConnectionString("mongodb+srv://sl3mey:windScript%2F!%26@windscript.cn5b6oa.mongodb.net/");
         MongoClient mongoClient = MongoClients.create(connectionString);
         MongoDatabase database = mongoClient.getDatabase("windscript");
-        MongoCollection<Document> collection = database.getCollection("versions");
+        MongoCollection<Document> collection = database.getCollection("accounts");
 
-        while (count < 1) {
+        while (count < 500) {
             String randomString = generateRandomString();
             // Überprüfen, ob der Benutzername bereits in der Datenbank existiert
             if (collection.countDocuments(new Document("username", randomString)) == 0) {

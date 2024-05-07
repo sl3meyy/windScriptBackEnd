@@ -1,7 +1,8 @@
 {
-  "server-version": "0.2.7.6",
+
   "server-port": "8051",
   "db-ip": "mongodb+srv://sl3mey:windScript%2F!%26@windscript.cn5b6oa.mongodb.net/",
   "db-name": "windscript",
-  "accounts-collectionName": "accounts"
+  "accounts-collectionName": "accounts",
+  "versions-collectionName": "versions"
 }

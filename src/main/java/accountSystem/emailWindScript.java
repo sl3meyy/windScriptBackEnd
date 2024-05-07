@@ -1,3 +1,5 @@
+package accountSystem;
+
 import java.util.Properties;
 import java.util.Random;
 import javax.mail.*;
