@@ -1,3 +1,4 @@
+import com.mongodb.ConnectionString;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoDatabase;
@@ -21,11 +22,12 @@ public class DatabasePopulator {
 
     public static void populateDatabase() {
         int count = 0;
-        MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
-        MongoDatabase database = mongoClient.getDatabase("accounts");
-        MongoCollection<Document> collection = database.getCollection("windscript");
+        ConnectionString connectionString = new ConnectionString("mongodb+srv://sl3mey:windScript%2F!%26@windscript.cn5b6oa.mongodb.net/");
+        MongoClient mongoClient = MongoClients.create(connectionString);
+        MongoDatabase database = mongoClient.getDatabase("windscript");
+        MongoCollection<Document> collection = database.getCollection("versions");
 
-        while (count < 500) {
+        while (count < 1) {
             String randomString = generateRandomString();
             // Überprüfen, ob der Benutzername bereits in der Datenbank existiert
             if (collection.countDocuments(new Document("username", randomString)) == 0) {
@@ -39,9 +41,7 @@ public class DatabasePopulator {
                 collection.insertOne(document);
                 count++;
             }
-
         }
-        ;
         mongoClient.close();
     }
 

@@ -1,22 +1,31 @@
 import java.io.*;
 import java.net.*;
-
+import org.json.JSONObject;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 //ToDo: Make Performance profiling, performance tests for 1 hour, 2 hour and so on, without request from client, always write it to a file an
 //ToDo: Implement Multithreading
 //ToDo: Check for newer Versions
 
 public class server {
     public static void main(String[] args) throws IOException {
+        String content = new String(Files.readAllBytes(Paths.get("src/main/java/config.json")));
 
+        // Konvertiere den String in ein JSONObject
+        JSONObject jsonConfig = new JSONObject(content);
+
+        // Beispiel: Abrufen eines Werts aus der JSON-Datei
+        String value = jsonConfig.getString("server-port");
+        int port = jsonConfig.getInt("server-port");
         // Define port number
-        int port = 8051;
+        //int port = 8051;
         boolean newVersionFound = false;
 
         ServerSocket serverSocket = new ServerSocket(port);//KI generiert
-        FileReader freader = new FileReader("serverVersion.txt");
-        BufferedReader breader = new BufferedReader(freader);
+        String version = jsonConfig.getString("server-version");
 
-        System.out.println("Server running on Version: " + breader.readLine());
+        System.out.println("Server running on Version: " + version);
         System.out.println("Checking for new version…");
 
         if(newVersionFound){
@@ -151,7 +160,7 @@ public class server {
                     } else if (newChoice == 7) {
                         //ToDo: Add Account verification here. More detail in next Lines comment
                         //User registers with newchoice 2, and get's an auth code sent, in this function the codes gonna get compared and then the user get's registered
-
+                        databsetest.register(user, pass, email);
                     }
 
 
