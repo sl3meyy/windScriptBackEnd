@@ -52,7 +52,7 @@ public class windscriptBackendServer {
 
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        //updateVersionsOnDatabase();
+        updateVersionsOnDatabase();
         runAuthServer();
     }
 }
