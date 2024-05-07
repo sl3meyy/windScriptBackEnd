@@ -1,0 +1,34 @@
+# Dieser Workflow erstellt ein Java-Projekt mit Maven und speichert/wiederherstellt Abhängigkeiten, um die Ausführungszeit des Workflows zu verbessern
+# Weitere Informationen finden Sie unter: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
+
+# Dieser Workflow verwendet Aktionen, die nicht von GitHub zertifiziert sind.
+# Sie werden von einem Drittanbieter bereitgestellt und unterliegen
+# separaten Nutzungsbedingungen, Datenschutzbestimmungen und Supportdokumentationen.
+
+name: Java CI mit Maven
+
+on:
+  push:
+    branches: [ "main" ] # Es wurde von "master" zu "main" gewechselt
+  pull_request:
+    branches: [ "main" ] # Auch hier zu "main" ändern
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2 # Version 4 zu 2 geändert
+    - name: Setze JDK 17 auf
+      uses: actions/setup-java@v2 # Version 3 zu 2 geändert
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: 'maven' # Cache-Option in Anführungszeichen gesetzt
+    - name: Baue mit Maven
+      run: mvn -B package --file pom.xml
+
+    # Optional: Lädt den vollständigen Abhängigkeitsgraphen auf GitHub hoch, um die Qualität der Dependabot-Benachrichtigungen zu verbessern, die dieses Repository erhalten kann
+    - name: Aktualisiere den Abhängigkeitsgraphen
+      uses: advanced-security/maven-dependency-submission-action@571e99aab1055c2e71a1e2309b9691de18d6b7d6
