@@ -1,6 +1,9 @@
+package accountSystem;
+
 import java.io.*;
 import java.lang.management.ManagementFactory;
 import java.util.Scanner;
+
 import com.sun.management.OperatingSystemMXBean;
 import oshi.SystemInfo;
 import oshi.hardware.HardwareAbstractionLayer;
