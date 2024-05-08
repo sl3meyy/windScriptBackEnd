@@ -76,7 +76,7 @@ public class authServer {
 
                 if (!(user.isEmpty() && pass.isEmpty())) {
                     if (newChoice == 1) { //ToDo: Implement verify logic here (login)
-                        if (functions.login(email, user, pass)) {
+                        if (functionsOld.login(email, user, pass)) {
                             out.println("Login Successful!");
                             System.out.println("Login Successful!");
                         } else {
@@ -90,7 +90,7 @@ public class authServer {
                         String authcode = in.readLine();
 
                         if(String.valueOf(randomNumber).equals(authcode)){
-                            if (functions.register(email, user, pass)) {
+                            if (functionsOld.register(email, user, pass)) {
                                 out.println("Registration Successful!");
                                 emailWindScript.sendEmail(email, "Registration Successful!", "Your Account has been registred, don't share your account infos with others");
                             } else {
@@ -99,13 +99,13 @@ public class authServer {
                         }
 
                     } else if (newChoice == 3) { //ToDo: Implement verify logic here (account delete)
-                        if (functions.deleteAccount(email, user, pass)) {
+                        if (functionsOld.deleteAccount(email, user, pass)) {
                             out.println("Account deleted!");
                         } else {
                             out.println("Account hasn't been deleted!");
                         }
                     }  else if (newChoice == 4) {
-                        int type = functions.readAccount(user);
+                        int type = functionsOld.readAccount(user);
                         if(type == 0 ){
                             System.out.println("Something went wrong!");
                             out.println("Your account is broken, please contact the support");
@@ -136,7 +136,7 @@ public class authServer {
                             System.out.println("You can't change the owners account Type!");
                             out.println("You can't change the owners account Type!");
                         }else{
-                            boolean editAccountType = functions.editAccountType(user,newType, adminPW);
+                            boolean editAccountType = functionsOld.editAccountType(user,newType, adminPW);
                             System.out.println(editAccountType);
                             out.println(String.valueOf(editAccountType));
                         }
@@ -171,7 +171,9 @@ public class authServer {
 
                         databsetest.register(user, pass, email);
                     } else if (newChoice == 8) {
-                        databsetest.login(user, pass, email);
+                        if(databsetest.login(user, pass, email)){
+                            out.println("Login Successful!");
+                        }
                     }
 
 
