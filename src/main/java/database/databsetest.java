@@ -1,3 +1,5 @@
+package database;
+
 import com.mongodb.client.*;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.result.DeleteResult;
@@ -46,7 +48,7 @@ public class databsetest {
         String email = sc.next();
         register(name, password, email);
     }
-    static void register(String username, String password, String email){
+    public static void register(String username, String password, String email){
         MongoClient mongoClient = MongoClients.create(serverIp);
         MongoDatabase database = mongoClient.getDatabase(dbName);
         if(!(nameIsUed(username))){
@@ -72,13 +74,13 @@ public class databsetest {
         }
 
     }
-    static void deleteItems(){
+    public static void deleteItems(){
         MongoClient mongoClient = MongoClients.create(serverIp);
         MongoDatabase database = mongoClient.getDatabase(dbName);
         DeleteResult result = database.getCollection(accountsCollection).deleteMany(Filters.eq("age", 14)); // Löscht alle Dokumente mit dem Alter 14
         System.out.println("Anzahl der gelöschten Dokumente: " + result.getDeletedCount());
     }
-    static void readItems(){
+    public static void readItems(){
         MongoClient mongoClient = MongoClients.create(serverIp);
         MongoDatabase database = mongoClient.getDatabase(dbName);
         MongoCollection<Document> collection = database.getCollection(accountsCollection);
@@ -89,7 +91,7 @@ public class databsetest {
             System.out.println("Gefundenes Dokument: " + document);
         }
     }
-    static void scanAllDocuments(){
+    public static void scanAllDocuments(){
         MongoClient mongoClient = MongoClients.create(serverIp);
         MongoDatabase database = mongoClient.getDatabase(dbName);
         MongoCollection<Document> collection = database.getCollection(accountsCollection);
@@ -161,7 +163,7 @@ public class databsetest {
             return false;
         }
     }
-    static boolean login(String username, String password, String email){
+    public static boolean login(String username, String password, String email){
         if(nameIsUed(username) && emailIsUed(email) && scanForSpecificThing("password", password)){
             return true;
         }else {

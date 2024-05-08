@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import database.*;
 //ToDo: Make Performance profiling, performance tests for 1 hour, 2 hour and so on, without request from client, always write it to a file an
 //ToDo: Implement Multithreading
 //ToDo: Check for newer Versions
@@ -167,6 +168,7 @@ public class authServer {
                     } else if (newChoice == 7) {
                         //ToDo: Add Account verification here. More detail in next Lines comment
                         //User registers with newchoice 2, and get's an auth code sent, in this function the codes gonna get compared and then the user get's registered
+
                         databsetest.register(user, pass, email);
                     } else if (newChoice == 8) {
                         databsetest.login(user, pass, email);
