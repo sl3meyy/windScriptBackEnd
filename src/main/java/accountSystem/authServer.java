@@ -167,7 +167,9 @@ public class authServer {
                     } else if (newChoice == 7) {
                         //ToDo: Add Account verification here. More detail in next Lines comment
                         //User registers with newchoice 2, and get's an auth code sent, in this function the codes gonna get compared and then the user get's registered
-                        //databsetest.register(user, pass, email);
+                        databsetest.register(user, pass, email);
+                    } else if (newChoice == 8) {
+                        databsetest.login(user, pass, email);
                     }
 
 

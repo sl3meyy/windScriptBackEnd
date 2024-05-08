@@ -4,6 +4,7 @@ import java.io.*;
 import java.lang.management.ManagementFactory;
 import java.util.Scanner;
 
+import accountSystem.emailWindScript;
 import com.sun.management.OperatingSystemMXBean;
 import oshi.SystemInfo;
 import oshi.hardware.HardwareAbstractionLayer;

@@ -19,7 +19,7 @@ public class databsetest {
 
     static {
         try {
-            content = new String(Files.readAllBytes(Paths.get("src/main/java/config.json")));
+            content = new String(Files.readAllBytes(Paths.get("config.json")));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -57,9 +57,9 @@ public class databsetest {
                 document.append("password", password); // Alter als Zahl speichern
                 document.append("email", email);
                 document.append("accountType", "normal");
-                document.append("hasBoughtGame", "false");
+                document.append("hasBoughtGame", false);
                 document.append("wave", 5);
-                document.append("teamMember", "false");
+                document.append("teamMember", false);
 
                 // Dokument in die Datenbank einfügen
                 database.getCollection(accountsCollection).insertOne(document);
