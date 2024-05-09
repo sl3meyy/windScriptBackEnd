@@ -3,5 +3,6 @@
   "db-ip": "mongodb+srv://sl3mey:windScript%2F!%26@windscript.cn5b6oa.mongodb.net/",
   "db-name": "windscript",
   "accounts-collectionName": "accounts",
-  "versions-collectionName": "versions"
+  "versions-collectionName": "versions",
+  "production": false
 }
