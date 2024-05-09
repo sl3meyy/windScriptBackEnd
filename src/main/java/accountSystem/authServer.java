@@ -3,13 +3,14 @@ package accountSystem;
 import java.io.*;
 import java.net.*;
 
-import main.windscriptBackendServer;
 import org.json.JSONObject;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import database.*;
+import main.windscriptBackendServer;
+
 //ToDo: Make Performance profiling, performance tests for 1 hour, 2 hour and so on, without request from client, always write it to a file an
 //ToDo: Implement Multithreading
 //ToDo: Check for newer Versions
@@ -166,7 +167,7 @@ public class authServer {
                             out.println("Login Successful!");
                         }
                     } else if (newChoice == 9) {
-                        windscriptBackendServer.updateServer();
+                        main.windscriptBackendServer.updateServer();
                     }
 
 
