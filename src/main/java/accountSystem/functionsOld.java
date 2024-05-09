@@ -99,7 +99,7 @@ public class functionsOld {
     //Google Gemini Ende
 
     static boolean registerr(String email, String name, String password, String accountType) throws IOException {
-        //ToDo: Implement Email verification
+
         new File("accounts").mkdir();
 
         File f1 = new File(accountsPath+name+".txt");
@@ -147,7 +147,7 @@ public class functionsOld {
         if(hasBoughtGame.equals("true") || hasBoughtGame.equals("team")){
             return false;
         } else if (hasBoughtGame.equals("false")) {
-            //Todo: Make paying function and return true if it's successful
+
             fw.write(user);
             fw.write(pw);
             fw.write(email);
@@ -266,7 +266,7 @@ public class functionsOld {
     }
 
     static int readAccount(String username) throws IOException {
-        //ToDo: Make team member checking with email instead of username. Also send user an email on accoun Type change
+
         FileReader fr = new FileReader(accountsPath+username+".txt");
         BufferedReader br = new BufferedReader(fr);
 

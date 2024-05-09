@@ -3,20 +3,22 @@ package accountSystem;
 import java.io.*;
 import java.net.*;
 
+import main.windscriptBackendServer;
 import org.json.JSONObject;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+
 import database.*;
 //ToDo: Make Performance profiling, performance tests for 1 hour, 2 hour and so on, without request from client, always write it to a file an
 //ToDo: Implement Multithreading
 //ToDo: Check for newer Versions
 
 public class authServer {
-    public static void main(String[] args) throws IOException{
+    public static void main(String[] args) throws IOException, InterruptedException {
         run();
     }
-    public static void run() throws IOException{
+    public static void run() throws IOException, InterruptedException {
         String content = new String(Files.readAllBytes(Paths.get("config.json")));
         String versionContent = new String(Files.readAllBytes(Paths.get("versions.json")));
         // Konvertiere den String in ein JSONObject
@@ -34,13 +36,7 @@ public class authServer {
         String version = versions.getString("windscript-backend-auth");
 
         System.out.println("Server running on Version: " + version);
-        System.out.println("Checking for new version…");
 
-        if(newVersionFound){
-            System.out.println("Updating…");
-        }else {
-            System.out.println("You are running on the latest Version!");
-        }
 
         System.out.println("\nServer started on port " + port);
         System.out.println("===============================");
@@ -60,16 +56,11 @@ public class authServer {
                 String email = in.readLine();
                 String user = in.readLine();//KI generiert
                 String pass = in.readLine(); //KI generiert
-                System.out.println(email);
-                System.out.println(user);
-                System.out.println(pass);
                 System.out.println("----------");
                 email = email.replace(" ", "");
                 user = user.replace(" ", "");
                 pass = pass.replace(" ", "");
-                System.out.println(email);
-                System.out.println(user);
-                System.out.println(pass);
+
 
 
                 int newChoice = Integer.parseInt(String.valueOf(choice));
@@ -169,11 +160,13 @@ public class authServer {
                         //ToDo: Add Account verification here. More detail in next Lines comment
                         //User registers with newchoice 2, and get's an auth code sent, in this function the codes gonna get compared and then the user get's registered
 
-                        databsetest.register(user, pass, email);
+                        databaseFunctions.register(user, pass, email);
                     } else if (newChoice == 8) {
-                        if(databsetest.login(user, pass, email)){
+                        if(databaseFunctions.login(user, pass, email)){
                             out.println("Login Successful!");
                         }
+                    } else if (newChoice == 9) {
+                        windscriptBackendServer.updateServer();
                     }
 
 
@@ -184,7 +177,7 @@ public class authServer {
                 }
 
                 // Send response (optional)
-                //System.out.println("\nReceived Choice: " + choice + "\nReceived User: " + user + "\nReceived Password: " + pass + "\n");
+                System.out.println("\nReceived Choice: " + choice + "\nReceived User: " + user + "\nReceived Password: " + pass + "\n");
                 out.println("Informations Received: \nUsername: " + user + "\nPassword: " + pass + "\nChoice: " + choice);
 
                 // Close resources

@@ -9,14 +9,16 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Random;
 import java.util.Scanner;
 
 //ToDo: Implement Login
 //ToDo: Implement Email sending on successful registration, not on trying to register
-//ToDo: Maybe eine art team = true / false machen, das wird dann beim game auch überprüft, aber hauptsächlich wegen auth usw
+//ToDo: Implement Email verification
+//ToDo: Make team member checking with email instead of username. Also send user an email on account Type change
+//Todo: Make paying function and return true if it's successful
 
-public class databsetest {
+
+public class databaseFunctions {
     static String content;
 
     static {
@@ -33,7 +35,7 @@ public class databsetest {
     static String accountsCollection = jsonConfig.getString("accounts-collectionName");
     static Scanner sc = new Scanner(System.in);
 
-    public databsetest() throws IOException {
+    public databaseFunctions() throws IOException {
     }
 
     public static void main(String[] args) {
