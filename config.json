@@ -4,5 +4,5 @@
   "db-name": "windscript",
   "accounts-collectionName": "accounts",
   "versions-collectionName": "versions",
-  "production": false
+  "production": true
 }

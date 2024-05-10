@@ -167,7 +167,7 @@ public class authServer {
                             out.println("Login Successful!");
                         }
                     } else if (newChoice == 9) {
-                        main.windscriptBackendServer.updateServer();
+                        windscriptBackendServer.updateServer();
                     }
 
 

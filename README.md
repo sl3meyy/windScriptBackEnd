@@ -14,7 +14,6 @@ WindScript BackEnd (WSB 0.3):
 WindScript BackEnd - auth (0.2.8.1):
 
     -(Checking that username and password don't match)
-    -Checking if email contains @ and . 
-    -
+    -Checking if email contains @ and .
     
     

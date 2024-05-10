@@ -61,7 +61,7 @@ public class databaseFunctions {
                 document.append("password", password); // Alter als Zahl speichern
                 document.append("email", email);
                 document.append("accountType", "normal");
-                document.append("hasBoughtGame", false);
+                //document.append("hasBoughtGame", false); Only needed for a Game
                 document.append("wave", 5);
                 document.append("teamMember", false);
 

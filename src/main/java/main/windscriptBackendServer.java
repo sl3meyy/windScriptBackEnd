@@ -9,7 +9,6 @@ import org.bson.Document;
 import org.json.JSONObject;
 
 import java.io.*;
-import java.net.Authenticator;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.file.Files;
