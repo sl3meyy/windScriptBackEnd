@@ -156,7 +156,7 @@ public class windscriptBackendServer {
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Accept", "application/vnd.github.v3+json");
-            conn.setRequestProperty("Authorization", "token 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");
+            //conn.setRequestProperty("Authorization", "token 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");
 
             try (BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
                 String inputLine;
