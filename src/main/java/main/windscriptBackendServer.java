@@ -19,7 +19,7 @@ import java.util.TimerTask;
 
 public class windscriptBackendServer {
     //ToDo: Implement Multithreading here, and start auth-server.jar on startup (other servers in future too)
-
+    //ToDo: Implement checking for a variable in config.json if test versions should be downloaded. Test version release names: t-0.2.8 for example. Production/Stable = s-0.2.7
     public static void main(String[] args) throws IOException, InterruptedException {
 
         updateServer();
@@ -85,7 +85,6 @@ public class windscriptBackendServer {
                 System.out.println("A new version (" + latestVersion + ") is available. Updating.....");
                 updateFiles();
 
-                // Starte den aktualisierten Server und beende den aktuellen Serverprozess
                 String currentDirectory = System.getProperty("user.dir");
                 String newFilePath = currentDirectory + File.separator + "windscriptbackend-"+getLatestReleaseVersion()+".jar";
 
@@ -122,7 +121,6 @@ public class windscriptBackendServer {
                 System.out.println("Installing Version:"+getLatestReleaseVersion()+ ").....");
                 updateFiles();
 
-                // Starte den aktualisierten Server und beende den aktuellen Serverprozess
                 String currentDirectory = System.getProperty("user.dir");
                 String newFilePath = currentDirectory + File.separator + "windscriptbackend-"+getLatestReleaseVersion()+".jar";
 
