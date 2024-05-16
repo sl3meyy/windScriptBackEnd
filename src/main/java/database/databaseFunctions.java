@@ -15,8 +15,7 @@ import java.util.Scanner;
 //ToDo: Implement Email sending on successful registration, not on trying to register
 //ToDo: Implement Email verification
 //ToDo: Make team member checking with email instead of username. Also send user an email on account Type change
-//Todo: Make paying function and return true if it's successful
-
+//ToDo: Email user if someone logs in with their account
 
 public class databaseFunctions {
     static String content;
@@ -55,15 +54,12 @@ public class databaseFunctions {
         MongoDatabase database = mongoClient.getDatabase(dbName);
         if(!(nameIsUed(username))){
             if(!(emailIsUed(email))){
-                // Einzelnes Document für Name und Alter erstellen
                 Document document = new Document();
                 document.append("username", username);
-                document.append("password", password); // Alter als Zahl speichern
+                document.append("password", password);
                 document.append("email", email);
                 document.append("accountType", "normal");
-                //document.append("hasBoughtGame", false); Only needed for a Game
-                //document.append("wave", 5);
-                //document.append("teamMember", false);
+                document.append("teamMember", false);
 
                 // Dokument in die Datenbank einfügen
                 database.getCollection(accountsCollection).insertOne(document);
