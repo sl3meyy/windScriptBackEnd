@@ -4,18 +4,18 @@ import com.mongodb.client.*;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.result.DeleteResult;
 import org.bson.Document;
+import org.bson.conversions.Bson;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Scanner;
-
+import accountSystem.emailWindScript;
 
 //ToDo: Implement Email sending on successful registration, not on trying to register
 //ToDo: Implement Email verification
 //ToDo: Make team member checking with email instead of username. Also send user an email on account Type change
-//ToDo: Email user if someone logs in with their account
 
 public class databaseFunctions {
     static String content;
@@ -38,6 +38,7 @@ public class databaseFunctions {
     }
 
     public static void main(String[] args) {
+        System.out.println(checkIfUserIsTeamMember("sl3mey"));
         registerWithConsole();
     }
     static void registerWithConsole(){
@@ -63,6 +64,7 @@ public class databaseFunctions {
 
                 // Dokument in die Datenbank einfügen
                 database.getCollection(accountsCollection).insertOne(document);
+                emailWindScript.sendEmail(email, "Registration Complete!", "Someone (hopefully you) registered with your email at WindScript. If you didn't register, please contact the Support");
             }else {
                 System.out.println("Email is already in use!");
             }
@@ -145,9 +147,16 @@ public class databaseFunctions {
         MongoDatabase database = mongoClient.getDatabase(dbName);
         MongoCollection<Document> collection = database.getCollection(accountsCollection);
 
-        Document query = new Document("teamMember", username);
-
-        return false;
+        Bson filter = Filters.and(
+                Filters.eq("username", username),
+                Filters.eq("teamMember", true)
+        );
+        Document result = collection.find(filter).first();
+        if (result != null) {
+            return true;
+        } else {
+            return false;
+        }
     }
     static boolean emailIsUed(String email){
         MongoClient mongoClient = MongoClients.create(serverIp);
@@ -172,6 +181,7 @@ public class databaseFunctions {
     }
     public static boolean login(String username, String password, String email){
         if(nameIsUed(username) && emailIsUed(email) && scanForSpecificThing("password", password)){
+            accountSystem.emailWindScript.sendEmail(email, "Someone logged in to your account", "Someone has successfully logged in to your account (hopefully you) If you don't know who's been this, please contact the Support and reset your password");
             return true;
         }else {
             return false;
