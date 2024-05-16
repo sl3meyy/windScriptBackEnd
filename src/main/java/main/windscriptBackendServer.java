@@ -19,7 +19,7 @@ import java.util.TimerTask;
 
 public class windscriptBackendServer {
     //ToDo: Implement Multithreading here, and start auth-server.jar on startup (other servers in future too)
-    //ToDo: Implement checking for a variable in config.json if test versions should be downloaded. Test version release names: t-0.2.8 for example. Production/Stable = s-0.2.7
+    //ToDo: Implement implement (auto) updating. Plan is now to just have an update command that updates everything
     public static void main(String[] args) throws IOException, InterruptedException {
 
         updateServer();
