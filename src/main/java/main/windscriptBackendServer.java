@@ -19,7 +19,7 @@ import java.util.TimerTask;
 
 public class windscriptBackendServer {
     //ToDo: Implement Multithreading here, and start auth-server.jar on startup (other servers in future too)
-
+    //ToDo: Implement implement (auto) updating. Plan is now to just have an update command that updates everything
     public static void main(String[] args) throws IOException, InterruptedException {
 
         updateServer();
@@ -85,7 +85,6 @@ public class windscriptBackendServer {
                 System.out.println("A new version (" + latestVersion + ") is available. Updating.....");
                 updateFiles();
 
-                // Starte den aktualisierten Server und beende den aktuellen Serverprozess
                 String currentDirectory = System.getProperty("user.dir");
                 String newFilePath = currentDirectory + File.separator + "windscriptbackend-"+getLatestReleaseVersion()+".jar";
 
@@ -122,7 +121,6 @@ public class windscriptBackendServer {
                 System.out.println("Installing Version:"+getLatestReleaseVersion()+ ").....");
                 updateFiles();
 
-                // Starte den aktualisierten Server und beende den aktuellen Serverprozess
                 String currentDirectory = System.getProperty("user.dir");
                 String newFilePath = currentDirectory + File.separator + "windscriptbackend-"+getLatestReleaseVersion()+".jar";
 
@@ -156,7 +154,7 @@ public class windscriptBackendServer {
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Accept", "application/vnd.github.v3+json");
-            conn.setRequestProperty("Authorization", "token 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");
+            //conn.setRequestProperty("Authorization", "token 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");
 
             try (BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
                 String inputLine;
@@ -243,6 +241,4 @@ public class windscriptBackendServer {
 
 
     }
-
-
 }
